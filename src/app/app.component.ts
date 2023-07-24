@@ -9,7 +9,7 @@ import { Post } from './post.model';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent implements OnInit {
-  loadedPosts = [];
+  loadedPosts: Post[] = [];
 
   constructor(private http: HttpClient) {}
 
@@ -46,16 +46,18 @@ export class AppComponent implements OnInit {
         //The next is not needed to be defined:
       // (responseData : {[key: string]: Post }) => {
       const postsArray: Post[] = [];
+
       for (const key in responseData){
         //Avoid accessing Prototype
         if (responseData.hasOwnProperty(key)){
           postsArray.push({...responseData[key], id: key});
         }
-        return postsArray;
       }
+      return postsArray;
     }))
     .subscribe((posts)=>{
-      console.log(posts);
+      console.log(posts)
+      this.loadedPosts = posts;
     });
   }
 }
