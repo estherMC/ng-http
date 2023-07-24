@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { map } from 'rxjs/operators';
+import { Post } from './post.model';
 
 @Component({
   selector: 'app-root',
@@ -16,7 +17,7 @@ export class AppComponent implements OnInit {
     this.fetchPosts();
   }
 
-  onCreatePost(postData: { title: string; content: string }) {
+  onCreatePost(postData: Post) {
     // Send Http request
     console.log(postData);
     this.http.post('https://ng-complete-guide-13a67-default-rtdb.europe-west1.firebasedatabase.app/posts.json', 
@@ -37,8 +38,9 @@ export class AppComponent implements OnInit {
 
   private fetchPosts(){
     this.http.get('https://ng-complete-guide-13a67-default-rtdb.europe-west1.firebasedatabase.app/posts.json')
-    .pipe(map(responseData => {
-      const postsArray = [];
+    .pipe(map(
+      (responseData : {[key: string]: Post }) => {
+      const postsArray: Post[] = [];
       for (const key in responseData){
         //Avoid accessing Prototype
         if (responseData.hasOwnProperty(key)){
