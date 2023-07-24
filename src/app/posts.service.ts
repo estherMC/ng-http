@@ -19,7 +19,7 @@ export class PostsService {
     }
 
     fetchPosts(){
-        this.http
+        return this.http
         .get<{[key: string]: Post }>('https://ng-complete-guide-13a67-default-rtdb.europe-west1.firebasedatabase.app/posts.json')
         .pipe(map(
           responseData => {
@@ -34,9 +34,9 @@ export class PostsService {
             }
           }
           return postsArray;
-        }))
-        .subscribe((posts)=>{
-
-        });
+        }));
+        //If we want to subscribe here, we need to emit a subject here and subscribe outside
+        //.subscribe((posts)=>{
+        //});
     }
 }
