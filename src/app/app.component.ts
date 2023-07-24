@@ -20,7 +20,9 @@ export class AppComponent implements OnInit {
   onCreatePost(postData: Post) {
     // Send Http request
     console.log(postData);
-    this.http.post('https://ng-complete-guide-13a67-default-rtdb.europe-west1.firebasedatabase.app/posts.json', 
+    this.http
+    .post<{name: string}>(
+      'https://ng-complete-guide-13a67-default-rtdb.europe-west1.firebasedatabase.app/posts.json', 
     postData).subscribe(responseData => {
       console.log(responseData);
     })
@@ -37,9 +39,12 @@ export class AppComponent implements OnInit {
   }
 
   private fetchPosts(){
-    this.http.get('https://ng-complete-guide-13a67-default-rtdb.europe-west1.firebasedatabase.app/posts.json')
+    this.http
+    .get<{[key: string]: Post }>('https://ng-complete-guide-13a67-default-rtdb.europe-west1.firebasedatabase.app/posts.json')
     .pipe(map(
-      (responseData : {[key: string]: Post }) => {
+      responseData => {
+        //The next is not needed to be defined:
+      // (responseData : {[key: string]: Post }) => {
       const postsArray: Post[] = [];
       for (const key in responseData){
         //Avoid accessing Prototype
