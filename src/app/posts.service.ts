@@ -39,4 +39,9 @@ export class PostsService {
         //.subscribe((posts)=>{
         //});
     }
+
+    deletePosts(){
+        return this.http
+        .delete('https://ng-complete-guide-13a67-default-rtdb.europe-west1.firebasedatabase.app/posts.json')
+    }
 }
