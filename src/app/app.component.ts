@@ -12,12 +12,19 @@ import { PostsService } from './posts.service';
 export class AppComponent implements OnInit {
   loadedPosts: Post[] = [];
   isFetching = false;
+  errorMessage = null;
 
   constructor(private http: HttpClient,
               private postsService: PostsService) {}
 
   ngOnInit() {
-    this.postsService.fetchPosts();
+    this.postsService.fetchPosts()
+    .subscribe(posts => {
+      this.isFetching = false;
+      this.loadedPosts = posts;
+    }, error => {
+      this.errorMessage = error.message;
+    });
   }
 
   onCreatePost(postData: Post) {
@@ -31,6 +38,9 @@ export class AppComponent implements OnInit {
     .subscribe(posts => {
       this.isFetching = false;
       this.loadedPosts = posts;
+    }, error => {
+      this.errorMessage = error.message;
+      console.log(error);
     });
   }
 
