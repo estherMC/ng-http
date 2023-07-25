@@ -24,11 +24,13 @@ export class AppComponent implements OnInit, OnDestroy {
       this.errorMessage = error;
     })
 
+    this.isFetching = true;
     this.postsService.fetchPosts()
     .subscribe(posts => {
       this.isFetching = false;
       this.loadedPosts = posts;
     }, error => {
+      this.isFetching = false;
       this.errorMessage = error.message;
     });
   }
@@ -39,15 +41,21 @@ export class AppComponent implements OnInit, OnDestroy {
   }
 
   onFetchPosts() {
+    this.isFetching=true;
     // Send Http request
     this.postsService.fetchPosts()
     .subscribe(posts => {
       this.isFetching = false;
       this.loadedPosts = posts;
     }, error => {
+      this.isFetching = false;
       this.errorMessage = error.message;
       console.log(error);
     });
+  }
+
+  onHandleError(){
+    this.errorMessage=null;
   }
 
   onClearPosts() {
